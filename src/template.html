@@ -10,6 +10,7 @@
         <div class="header-top">
             <h1>To-Do List</h1>
             <button class="create-task">Create Task<br> + </button>
+            <button class="create-project">+<br>Create Project</button>
         </div>
         <div class="header-divider"></div>
         <div class="header-bottom">
@@ -27,17 +28,19 @@
         
     </main>
     <footer></footer>
-    <dialog id="create">
-        <span class="modal-close">X</span>
-        <form method="dialog">
+    <dialog id="task-modal">
+        <!--<span class="modal-close">X</span>-->
+        <form method="dialog" class="task">
             <label for="title">Title</label>
             <input type="text" id="title" name="title">
             <label for="notes">Notes</label>
             <input type="text" id="notes" name="notes">
             <label for="date">Due Date</label>
-            <input type="text" id="date" name="date">
+            <input type="date" id="date" name="date">
             <label for="category">Category</label>
-            <input type="text" id="category" name="category">
+            <select name="category" id="category">
+                <option value="default" selected>Default</option>
+            </select>
             <label>Priority</label>
             <label for="low">
                 <input type="radio" id="low" name="priority" value="low" checked>
@@ -52,34 +55,17 @@
                 High
             </label>
             <button class="add-task">Add</button>
+            <button class="save-changes hide">Save Changes</button>
+            <button class ="cancel">Cancel</button>
         </form>
     </dialog>
-    <dialog id="edit">
-        <span class="modal-close-edit">X</span>
-        <form method="dialog">
-            <label for="title-edit">Title</label>
-            <input type="text" id="title-edit" name="title">
-            <label for="notes-edit">Notes</label>
-            <input type="text" id="notes-edit" name="notes">
-            <label for="date-edit">Due Date</label>
-            <input type="text" id="date-edit" name="date">
-            <label for="category-edit">Category</label>
-            <input type="text" id="category-edit" name="category">
-            <label>Priority</label>
-            <label for="low-edit">
-                <input type="radio" id="low-edit" name="priority" value="low">
-                Low
-            </label>
-            <label for="mid-edit">
-                <input type="radio" id="mid-edit" name="priority" value="mid">
-                Mid
-            </label>
-            <label for="high-edit">
-                <input type="radio" id="high-edit" name="priority" value="high">
-                High
-            </label>
-            <button class="save-changes">Save Changes</button>
-            <button class="cancel-changes">Cancel</button>
+   
+    <dialog id="project-modal">
+        <form method="dialog" class="project">
+            <label for="name">Project Name:</label>
+            <input type="text" id="name" name="name">
+            <button class="add-project">Add</button>
+            <button class ="cancel">Cancel</button>
         </form>
     </dialog>
     

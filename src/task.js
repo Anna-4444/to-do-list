@@ -1,24 +1,32 @@
+import { format } from "date-fns";
+
 export class Task {
-    constructor (title, notes, duedate, category, priority) {
+    constructor (title, notes, dueDate, category, priority) {
         this.title = title;
         this.notes = notes;
-        this.duedate = duedate;
+        this.dueDate = format(new Date(dueDate), 'MM/dd/yyyy');
         this.category = category;
         this.priority = priority;
     };
 
-}
+    static taskArray = [];
 
-export function createTaskObj(taskArray) {
+};
+
+//export function formElements () {}
+
+
+export function createTaskObj() {
 
     const title = document.querySelector("#title").value;
     const notes = document.querySelector("#notes").value;
-    const duedate = document.querySelector("#date").value;
+    const dueDate = document.querySelector("#date").value;
     const category = document.querySelector("#category").value;
-    let priority = "";
     const low = document.querySelector("#low");
     const mid = document.querySelector("#mid");
     const high = document.querySelector("#high");
+    
+    let priority = "";
     if (low.checked) {
         priority = low.value;
     } else if (mid.checked) {
@@ -27,6 +35,7 @@ export function createTaskObj(taskArray) {
         priority = high.value;
     };
 
-    const newTask = new Task(title, notes, duedate, category, priority);
-    taskArray.push(newTask);
+    const newTask = new Task(title, notes, dueDate, category, priority);
+    Task.taskArray.push(newTask);
+
 };

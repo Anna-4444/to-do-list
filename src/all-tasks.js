@@ -1,18 +1,17 @@
 import {displayEditDialog} from "./edit-dialog.js"
+import { Task } from "./task.js";
 
-export function loadAllTasks(taskArray) {
+export function loadAllTasks() {
 
-    //clear out the main html
     const main = document.querySelector("main");
-    main.innerHTML = "";
 
     //loop through the task array. create and display a task card for each task object
-    taskArray.forEach(function (task, index) {
+    Task.taskArray.forEach(function (task, index) {
 
         let taskCard = document.createElement("div");
         taskCard.classList.add("task-card");
         taskCard.setAttribute("data-index", index);
-        taskCard.innerHTML = `<button></button> <p>${task.title} ${task.notes} ${task.duedate} ${task.category} ${task.priority} </p>`;
+        taskCard.innerHTML = `<button></button> <p>${task.title} ${task.notes} ${task.dueDate} ${task.category} ${task.priority} </p>`;
 
         const editTask = document.createElement("button");
         editTask.innerText = "Edit";
@@ -23,8 +22,9 @@ export function loadAllTasks(taskArray) {
         const deleteTask = document.createElement("button");
         deleteTask.innerText = "Delete";
         deleteTask.addEventListener("click", () => {
-            taskArray.splice(index, 1);
-            loadAllTasks(taskArray);
+            Task.taskArray.splice(index, 1);
+            main.innerHTML = "";
+            loadAllTasks(Task.taskArray);
         });
         
         taskCard.append(editTask, deleteTask);
