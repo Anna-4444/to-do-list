@@ -1,8 +1,12 @@
+import { Task } from "./task.js";
+
 export class Project {
+
     constructor (name) {
         this.name = name;
-    }
-    static projectArray = [];
+    };
+
+    static projectArray = [{name: "default"}];
 
     static createProjObj () {
 
@@ -15,46 +19,112 @@ export class Project {
 
         const newProj = new Project(name);
         Project.projectArray.push(newProj);
-        console.log(Project.projectArray);
+        
     };
-};
-//default will need to be added to the project array??
-//Project.projectArray.forEach(function (project, index) {});
-const main = document.querySelector("main");
 
-for (project of Project.projectArray) {
+    static projectEditDialog (project, index) {
 
-    let projContainer = document.createElement("div");
-    projContainer.classList.add("proj-container");
+        const name = document.querySelector("#name");
+        const saveChangesBtn = document.querySelector(".save-proj-changes");
+        const addBtn = document.querySelector(".add-project");
+        saveChangesBtn.setAttribute("data-index", index);
+        saveChangesBtn.classList.remove("hide");
+        addBtn.classList.add("hide"); 
 
-    let projName = document.createElement("h2");
-    projName.innerText = project.name.toUpperCase();
+        name.value = project.name;
 
-    const editProj = document.createElement("button");
-    editProj.innerText = "Edit";
-    editProj.addEventListener("click", () => {
-            //displayEditDialog(task, index); 
-    });
+        const dialog = document.querySelector("#project-modal");
+        dialog.showModal();          
+    
+    };
 
-    const deleteTask = document.createElement("button");
-    deleteTask.innerText = "Delete";
-    deleteTask.addEventListener("click", () => {
-        //Task.taskArray.splice(index, 1);
-        //main.innerHTML = "";
-        //loadAllTasks(Task.taskArray);
-    });
+    static saveProjectEdits () {
 
-    let taskContainer = document.createElement("div");
-    taskContainer.classList.add("task-container");
+        const name = document.querySelector("#name").value;
+        const saveChangesBtn = document.querySelector(".save-proj-changes");
+        const addBtn = document.querySelector(".add-project");
+        saveChangesBtn.classList.add("hide");
+        addBtn.classList.remove("hide"); 
 
-    projContainer.append(projName, editProj, deleteProj, taskContainer );
-    main.append(projContainer);
+        const projIndex = Number(saveChangesBtn.getAttribute("data-index"));
+        const project = Project.projectArray[projIndex];
 
-    //const variable = function checkThisProjectName(this project) {
-    //loop throught the task array, if project.name 
-    //includes/matches/===task.category, 
-    //push that task to an array. return the array (to the variable).
-    //take that variable.for each load the title, notes, date, priority
-    //into a div, then append all divs to the taskCOntainer   
-    //}
+        for (let i = 0; i < Task.taskArray.length; i++) {
+            if (Task.taskArray[i].category == project.name) {
+                Task.taskArray[i].category = name;                
+            };
+        };
+
+        project.name = name;
+
+    };
+
+    static deleteProject (project, index) {
+
+        for (let i = 0; i < Task.taskArray.length; i++) {
+            if (Task.taskArray[i].category == project.name) {
+                Task.taskArray.splice(i, 1);                
+            };
+        };
+
+        const option = document.querySelector(`option[value="${project.name}"]`);
+        option.remove();
+
+        Project.projectArray.splice(index, 1);
+        const main = document.querySelector("main");
+        main.innerHTML = ""
+        Project.loadProjTasks();
+
+    }; 
+                
+    static loadProjTasks () {
+         
+        const main = document.querySelector("main");
+
+        Project.projectArray.forEach(function (project, index) {
+            const projContainer = document.createElement("div");
+            projContainer.classList.add("proj-container");
+        
+            const projName = document.createElement("h2");
+            projName.innerText = project.name;
+        
+            const editProj = document.createElement("button");
+            editProj.innerText = "Edit";
+                editProj.addEventListener("click", () => {
+                    Project.projectEditDialog (project, index);  
+                });
+        
+            const deleteProj = document.createElement("button");
+            deleteProj.innerText = "Delete";
+            deleteProj.addEventListener("click", () => {
+                if (confirm("Delete this project and all of it's tasks?")) {
+                    Project.deleteProject(project, index);                    
+                } else {
+                    //cancel button was selected, do nothing
+                };
+            });
+        
+            const taskContainer = document.createElement("div");
+            taskContainer.classList.add("task-container");
+
+            let filteredArray = [];
+            for (let i = 0; i < Task.taskArray.length; i++) {
+                if (Task.taskArray[i].category == project.name) {
+                    filteredArray.push(Task.taskArray[i]);
+                };
+            };
+
+            filteredArray.map(function(obj){
+                const taskCard = document.createElement("div");
+                taskCard.classList.add("task-card");
+                taskCard.setAttribute("data-index", index);
+                taskCard.innerHTML = `<button></button> <p>${obj.title} ${obj.notes} ${obj.dueDate} ${obj.category} ${obj.priority} </p>`;
+                taskContainer.append(taskCard);
+            });
+
+            projContainer.append(projName, editProj, deleteProj, taskContainer );
+            main.append(projContainer);
+                      
+        });    
+    };
 };
