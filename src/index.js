@@ -4,39 +4,56 @@ import { Task } from "./task.js";
 //import { saveTaskEdits } from "./save-changes.js";
 import { Project } from "./project.js"
 
-
+const saveChangesBtn = document.querySelector(".save-task-changes");
+const addBtn = document.querySelector(".add-task");
 
 const createTaskBtn = document.querySelector(".create-task");
 const dialog = document.querySelector("#task-modal");
-const addTaskBtn = document.querySelector(".add-task");
-const saveTaskChanges = document.querySelector(".save-task-changes");
+//const addTaskBtn = document.querySelector(".add-task");
+//const saveTaskChanges = document.querySelector(".save-task-changes");
 const cancelBtn = document.querySelector(".cancel");
 const createProjBtn = document.querySelector(".create-project");
 const dialog2 = document.querySelector("#project-modal");
 const addProjBtn = document.querySelector(".add-project");
 const saveProjChanges = document.querySelector(".save-proj-changes")
 const allTasks = document.querySelector(".all");
-//const dueToday = document.querySelector(".due-today");
+const dueToday = document.querySelector(".due-today");
 const projectList = document.querySelector(".project-list");
 const main = document.querySelector("main");
-
+const checkBox = document.querySelector("#check")
 
 createTaskBtn.addEventListener("click", () => {
     const taskForm = document.querySelector(".task");
     taskForm.reset();
+    saveChangesBtn.classList.add("hide");
+    addBtn.classList.remove("hide"); 
     dialog.showModal();
 });
 
-addTaskBtn.addEventListener("click", () => {
+addBtn.addEventListener("click", () => {
     Task.createTaskObj();
     main.innerHTML = "";
-    Task.loadAllTasks();
+    if (main.classList.contains("project-list")) {
+        Project.loadProjCont();
+        Project.loadTasksToProjCont();
+    } else if (main.classList.contains("today-tasks")) {
+        Task.loadTodayTasks();
+    } else {
+        Task.loadAllTasks();
+    }
 });
 
-saveTaskChanges.addEventListener("click", () => {
+saveChangesBtn.addEventListener("click", () => {
     Task.saveTaskEdits();
     main.innerHTML = "";
-    Task.loadAllTasks();
+    if (main.classList.contains("project-list")) {
+        Project.loadProjCont();
+        Project.loadTasksToProjCont();
+    } else if (main.classList.contains("today-tasks")) {
+        Task.loadTodayTasks();
+    } else {
+        Task.loadAllTasks();
+    }
 });
 
 cancelBtn.addEventListener("click", () => {
@@ -52,13 +69,13 @@ createProjBtn.addEventListener("click", () => {
 
 addProjBtn.addEventListener("click", () => {
     Project.createProjObj();
-    console.log(Project.projectArray);
 });
 
 saveProjChanges.addEventListener("click", () => {
     Project.saveProjectEdits();
     main.innerHTML = "";
-    Project.loadProjTasks();
+    Project.loadProjCont();
+    Project.loadTasksToProjCont();
 });
 
 allTasks.addEventListener("click", () => {
@@ -66,11 +83,14 @@ allTasks.addEventListener("click", () => {
     Task.loadAllTasks();
 });
 
-//dueToday.addEventListener("click", function () {
-//});
+dueToday.addEventListener("click", () => {
+    main.innerHTML = "";
+    Task.loadTodayTasks();
+});
 
 projectList.addEventListener("click", () => {
     main.innerHTML = "";
-    Project.loadProjTasks();
+    Project.loadProjCont();
+    Project.loadTasksToProjCont();
 
 });

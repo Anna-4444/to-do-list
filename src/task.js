@@ -1,11 +1,11 @@
-import { format } from "date-fns";
+import { format, isToday } from "date-fns";
 
 export class Task {
 
     constructor (title, notes, dueDate, category, priority) {
         this.title = title;
         this.notes = notes;
-        this.dueDate = format(new Date(dueDate), 'MM/dd/yyyy');
+        this.dueDate = dueDate;
         this.category = category;
         this.priority = priority;
     };
@@ -16,7 +16,9 @@ export class Task {
 
         const title = document.querySelector("#title").value;
         const notes = document.querySelector("#notes").value;
-        const dueDate = document.querySelector("#date").value;
+        const date = document.querySelector("#date").value;
+        console.log(date) //2024-09-24
+        const dueDate = format(date.replace(/-/g, '/'), 'MMM d yyyy'); 
         const category = document.querySelector("#category").value;
         const low = document.querySelector("#low");
         const mid = document.querySelector("#mid");
@@ -30,17 +32,21 @@ export class Task {
         } else if (high.checked) {
             priority = high.value;
         };
-    
+
         const newTask = new Task(title, notes, dueDate, category, priority);
         Task.taskArray.push(newTask);
+        
+        console.log(Task.taskArray);
     
     };
     
     static taskEditDialog (task, index) {
+        
+        console.log(task, index)
 
         const title = document.querySelector("#title");
         const notes = document.querySelector("#notes");
-        const dueDate = document.querySelector("#date");
+        const date = document.querySelector("#date");
         const category = document.querySelector("#category");
         const low = document.querySelector("#low");
         const mid = document.querySelector("#mid");
@@ -52,10 +58,14 @@ export class Task {
         saveChangesBtn.classList.remove("hide");
         addBtn.classList.add("hide"); 
     
+            
         title.value = task.title;
         notes.value = task.notes;
-        dueDate.value = task.dueDate//format(new Date(task.dueDate), 'MM/dd/yyyy');
+        date.value = format(task.dueDate, 'yyyy-MM-dd')
         category.value = task.category;
+
+        console.log(task.dueDate)
+        console.log(task.category)
     
         if (task.priority == low.value) {
             low.checked = true;
@@ -74,7 +84,8 @@ export class Task {
         
         const title = document.querySelector("#title").value;
         const notes = document.querySelector("#notes").value;
-        const dueDate = document.querySelector("#date").value;
+        const date = document.querySelector("#date").value;
+        const dueDate = format(date.replace(/-/g, '/'), 'MMM d, yyyy');
         const category = document.querySelector("#category").value;
         const low = document.querySelector("#low");
         const mid = document.querySelector("#mid");
@@ -89,7 +100,7 @@ export class Task {
     
         task.title = title;
         task.notes = notes;
-        task.dueDate = format(new Date(dueDate), 'MM/dd/yyyy');
+        task.dueDate = dueDate;
         task.category = category;
     
         if (low.checked) {
@@ -101,19 +112,42 @@ export class Task {
         };
     
     };    
+
+    static checkUncheck (index) {
+        const allTaskCards = Array.from(document.querySelectorAll(".task-card"));
+        const thisTaskCard = allTaskCards[index];
     
+        console.log(allTaskCards);
+        console.log(thisTaskCard);
+        if (thisTaskCard.classList.contains("check-box")) {
+            thisTaskCard.classList.remove("check-box");
+        } else {
+            thisTaskCard.classList.add("check-box");
+        };
+    };
+
     static loadAllTasks() {
 
         const main = document.querySelector("main");
+        main.classList.remove("today-tasks", "project-list");
+        main.classList.add("all-tasks");
+        const taskContainer = document.createElement("div");
+        taskContainer.classList.add("task-container");
+        main.append(taskContainer);
+        
+        Task.taskArray.forEach((task, index) => {
     
-        //loop through the task array. create and display a task card for each task object
-        Task.taskArray.forEach(function (task, index) {
-    
-            let taskCard = document.createElement("div");
+            const taskCard = document.createElement("div");
             taskCard.classList.add("task-card");
             taskCard.setAttribute("data-index", index);
-            taskCard.innerHTML = `<button></button> <p>${task.title} ${task.notes} ${task.dueDate} ${task.category} ${task.priority} </p>`;
-    
+
+            taskCard.innerHTML = `<p>${task.title}</p> <p>${task.notes}</p> <p>${task.dueDate}</p> <p>${task.category}</p> <p>${task.priority}</p>`;
+            
+            const checkBox = document.createElement("button");
+            checkBox.addEventListener("click", () => {
+                Task.checkUncheck(index);
+            });
+
             const editTask = document.createElement("button");
             editTask.innerText = "Edit";
             editTask.addEventListener("click", () => {
@@ -125,11 +159,57 @@ export class Task {
             deleteTask.addEventListener("click", () => {
                 Task.taskArray.splice(index, 1);
                 main.innerHTML = "";
-                Task.loadAllTasks(Task.taskArray);
+                Task.loadAllTasks();
             });
             
-            taskCard.append(editTask, deleteTask);
-            main.append(taskCard);
+            taskCard.append(checkBox, editTask, deleteTask);
+            taskContainer.append(taskCard);   
         })
     };
+
+    static loadTodayTasks() {
+
+        const main = document.querySelector("main");
+        main.classList.remove("all-tasks", "project-list");
+        main.classList.add("today-tasks");
+        const taskContainer = document.createElement("div");
+        taskContainer.classList.add("task-container");
+        main.append(taskContainer);
+    
+        Task.taskArray.forEach((task, index) => {
+            
+            if (isToday(task.dueDate)) {
+                
+                let taskCard = document.createElement("div");
+                taskCard.classList.add("task-card");
+                taskCard.setAttribute("data-index", index);
+
+                taskCard.innerHTML = `<p>${task.title}</p> <p>${task.notes}</p> <p>${task.dueDate}</p> <p>${task.category}</p> <p>${task.priority}</p>`;
+                
+                const checkBox = document.createElement("button");
+                checkBox.addEventListener("click", () => {
+                Task.checkUncheck(index);
+                });
+
+                const editTask = document.createElement("button");
+                editTask.innerText = "Edit";
+                editTask.addEventListener("click", () => {
+                    Task.taskEditDialog(task, index); 
+                });
+    
+                const deleteTask = document.createElement("button");
+                deleteTask.innerText = "Delete";
+                deleteTask.addEventListener("click", () => {
+                    Task.taskArray.splice(index, 1);
+                    main.innerHTML = "";
+                    Task.loadTodayTasks();
+                });
+                
+                taskCard.append(checkBox, editTask, deleteTask);
+                taskContainer.append(taskCard); 
+            };
+        });  
+    };
 };
+
+

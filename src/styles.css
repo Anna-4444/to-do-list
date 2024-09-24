@@ -62,6 +62,24 @@ input {
     margin-bottom: 0.4em;
 }
 
+/***main {
+    width: 100%;
+}***/
+
+.task-container {
+    width: 100%
+}
+
 .task-card {
+    width: 90%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 4fr 4fr 4fr 3fr 1fr 1fr 1fr;
+    gap: 1rem;
+    padding: 1rem;
     background-color: aliceblue;
+}
+
+.check-box {
+    text-decoration: line-through;
 }

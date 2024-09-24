@@ -31,12 +31,12 @@
     <dialog id="task-modal">
         <!--<span class="modal-close">X</span>-->
         <form method="dialog" class="task">
-            <label for="title">Title</label>
-            <input type="text" id="title" name="title">
+            <label for="title">Title (*required)</label>
+            <input type="text" id="title" name="title" title="Please fill out the task title" required>
             <label for="notes">Notes</label>
             <input type="text" id="notes" name="notes">
             <label for="date">Due Date</label>
-            <input type="date" id="date" name="date">
+            <input type="date" id="date" name="date" required>
             <label for="category">Category</label>
             <select name="category" id="category">
                 <option value="default" selected>Default</option>
