@@ -144,18 +144,19 @@ export class Task {
             taskCard.innerHTML = `<p>${task.title}</p> <p>${task.notes}</p> <p>${task.dueDate}</p> <p>${task.category}</p> <p>${task.priority}</p>`;
             
             const checkBox = document.createElement("button");
+            checkBox.classList.add("item-one");
             checkBox.addEventListener("click", () => {
                 Task.checkUncheck(index);
             });
 
             const editTask = document.createElement("button");
-            editTask.innerText = "Edit";
+            editTask.innerHTML = '<i class="fa-regular fa-pen-to-square"></i>';
             editTask.addEventListener("click", () => {
                 Task.taskEditDialog(task, index); 
             });
     
             const deleteTask = document.createElement("button");
-            deleteTask.innerText = "Delete";
+            deleteTask.innerHTML = '<i class="fa-regular fa-trash-can"></i>';
             deleteTask.addEventListener("click", () => {
                 Task.taskArray.splice(index, 1);
                 main.innerHTML = "";
@@ -187,18 +188,19 @@ export class Task {
                 taskCard.innerHTML = `<p>${task.title}</p> <p>${task.notes}</p> <p>${task.dueDate}</p> <p>${task.category}</p> <p>${task.priority}</p>`;
                 
                 const checkBox = document.createElement("button");
+                checkBox.classList.add("item-one");
                 checkBox.addEventListener("click", () => {
                 Task.checkUncheck(index);
                 });
 
                 const editTask = document.createElement("button");
-                editTask.innerText = "Edit";
+                editTask.innerHTML = '<i class="fa-regular fa-pen-to-square"></i>';
                 editTask.addEventListener("click", () => {
                     Task.taskEditDialog(task, index); 
                 });
     
                 const deleteTask = document.createElement("button");
-                deleteTask.innerText = "Delete";
+                deleteTask.innerHTML = '<i class="fa-regular fa-trash-can"></i>';
                 deleteTask.addEventListener("click", () => {
                     Task.taskArray.splice(index, 1);
                     main.innerHTML = "";

@@ -5,18 +5,29 @@
 html {
     font-size: 16px;
 }
+
 .hide {
     display: none;
 }
 
 body {
-    background-color: aquamarine;
+    background-color: #deefb7;
 }
 
 header {
     padding: 1em 0;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #275347;
 }
+
+h1 {
+    font-size: 3.5rem;    
+}
+
+h1,
+h2 {
+    color: #275347;
+}
+
 .header-top,
 .header-bottom {
     display: flex;
@@ -29,7 +40,7 @@ header {
 .header-divider {
     width: 100%;
     height: 1px;
-    background-color: black;
+    background-color: #275347;
     margin: 1em 0;
 }
 
@@ -38,6 +49,26 @@ nav {
     justify-content: space-evenly;
     width: 80%;
 
+}
+
+header button {
+    padding: 0.5rem 1rem;
+    border-radius: 10% 50%;
+    background-color: #83d89e;
+    border: none;
+    color: white;
+    font-variant: small-caps;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+header button:hover {
+    cursor: pointer;
+    background-color: #275347;
+}
+
+header i {
+    color: white;
 }
 
 dialog {
@@ -66,20 +97,57 @@ input {
     width: 100%;
 }***/
 
+.proj-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem 0px;
+}
+
 .task-container {
-    width: 100%
+    width: 100%; 
 }
 
 .task-card {
     width: 90%;
-    margin: 0 auto;
+    margin: 1rem auto;
     display: grid;
     grid-template-columns: 1fr 4fr 4fr 4fr 3fr 1fr 1fr 1fr;
-    gap: 1rem;
-    padding: 1rem;
-    background-color: aliceblue;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background-color: white;
+    border-radius: 0.5rem;
+    border-left: 5px solid #275347;
+    box-shadow: 3px 3px 5px gray;
+}
+.task-card p {
+    place-self: center;
+}
+
+.task-card button {
+    place-self: center;
+}
+
+.item-one {
+    grid-area: 1 / 1 / 2 / 2;
+    place-self: center;
+    width: 0.5rem;
+    padding-bottom: 0.5rem;
 }
 
 .check-box {
     text-decoration: line-through;
 }
+
+button {
+    background-color: white;
+    border-color: #275347;
+}
+
+button:hover {
+    cursor: pointer;
+    background-color: #deefb7;
+    border-color: #deefb7;
+}
+

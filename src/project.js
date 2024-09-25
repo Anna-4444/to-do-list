@@ -100,13 +100,13 @@ export class Project {
             projName.innerText = project.name;
         
             const editProj = document.createElement("button");
-            editProj.innerText = "Edit";
+            editProj.innerHTML = '<i class="fa-regular fa-pen-to-square"></i>';
                 editProj.addEventListener("click", () => {
                     Project.projectEditDialog (project, index);  
                 });
         
             const deleteProj = document.createElement("button");
-            deleteProj.innerText = "Delete";
+            deleteProj.innerHTML = '<i class="fa-regular fa-trash-can"></i>';
             deleteProj.addEventListener("click", () => {
                 if (confirm("Delete this project and all of it's tasks?")) {
                     Project.deleteProject(project, index);                    
@@ -141,19 +141,20 @@ export class Project {
                     taskCard.innerHTML = `<p>${task.title}</p> <p>${task.notes}</p> <p>${task.dueDate}</p> <p>${task.category}</p> <p>${task.priority}</p>`;
 
                     const checkBox = document.createElement("button");
+                    checkBox.classList.add("item-one");
                     checkBox.addEventListener("click", () => {
                         Task.checkUncheck(index);
                     });
 
                     const editTask = document.createElement("button");
-                    editTask.innerText = "Edit";
+                    editTask.innerHTML = '<i class="fa-regular fa-pen-to-square"></i>';
                     editTask.addEventListener("click", () => {
                         Task.taskEditDialog(task, index); 
                         
                     });
         
                     const deleteTask = document.createElement("button");
-                    deleteTask.innerText = "Delete";
+                    deleteTask.innerHTML = '<i class="fa-regular fa-trash-can"></i>';
                     deleteTask.addEventListener("click", () => {
                         Task.taskArray.splice(index, 1);
                         main.innerHTML = "";

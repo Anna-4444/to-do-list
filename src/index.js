@@ -1,8 +1,11 @@
 import "./styles.css";
-//import { loadAllTasks } from "./all-tasks.js";
+//import { library, icon } from "@fortawesome/fontawesome-svg-core"
+//import { faCalendar } from "@fortawesome/free-regular-svg-icons"
 import { Task } from "./task.js";
-//import { saveTaskEdits } from "./save-changes.js";
 import { Project } from "./project.js"
+
+//library.add(faCalendar);
+//const calendar = icon({ prefix: 'fas', iconName: 'calendar'});
 
 const saveChangesBtn = document.querySelector(".save-task-changes");
 const addBtn = document.querySelector(".add-task");
@@ -21,6 +24,9 @@ const dueToday = document.querySelector(".due-today");
 const projectList = document.querySelector(".project-list");
 const main = document.querySelector("main");
 const checkBox = document.querySelector("#check")
+
+//createTaskBtn.innerContent = calendar;
+//console.log(calendar)
 
 createTaskBtn.addEventListener("click", () => {
     const taskForm = document.querySelector(".task");
