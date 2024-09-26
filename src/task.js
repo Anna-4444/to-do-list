@@ -116,13 +116,22 @@ export class Task {
     static checkUncheck (index) {
         const allTaskCards = Array.from(document.querySelectorAll(".task-card"));
         const thisTaskCard = allTaskCards[index];
-    
+        const allCheckBtns = Array.from(document.querySelectorAll(".item-one"));
+        const thisCheckBtn = allCheckBtns[index];
+
         console.log(allTaskCards);
         console.log(thisTaskCard);
+        console.log(allCheckBtns)
+        console.log(thisCheckBtn);
+
         if (thisTaskCard.classList.contains("check-box")) {
             thisTaskCard.classList.remove("check-box");
+            thisCheckBtn.classList.add("check-size");
+            thisCheckBtn.innerHTML = '';
         } else {
             thisTaskCard.classList.add("check-box");
+            thisCheckBtn.classList.remove("check-size");
+            thisCheckBtn.innerHTML = '<i class="fa-solid fa-check"></i>';
         };
     };
 
@@ -141,10 +150,24 @@ export class Task {
             taskCard.classList.add("task-card");
             taskCard.setAttribute("data-index", index);
 
-            taskCard.innerHTML = `<p>${task.title}</p> <p>${task.notes}</p> <p>${task.dueDate}</p> <p>${task.category}</p> <p>${task.priority}</p>`;
+            taskCard.innerHTML = `<p>${task.title}</p> <p>${task.notes}</p> <p>${task.dueDate}</p> <p>${task.category}</p>`;
             
+            const priority = document.createElement("p");// this could be a p
+            priority.classList.add("priority"); //this css will make it a circle
+            //this will make the circle green, yellow, or red
+            if (task.priority == "low") {
+                priority.classList.remove("mid", "high")
+                priority.classList.add("low")
+            } else if (task.priority == "mid") {
+                priority.classList.remove("low", "high") 
+                priority.classList.add("mid")
+            } else if (task.priority == "high") {
+                priority.classList.remove("mid", "low")
+                priority.classList.add("high")
+            }
+
             const checkBox = document.createElement("button");
-            checkBox.classList.add("item-one");
+            checkBox.classList.add("item-one", "check-size");
             checkBox.addEventListener("click", () => {
                 Task.checkUncheck(index);
             });
@@ -163,7 +186,7 @@ export class Task {
                 Task.loadAllTasks();
             });
             
-            taskCard.append(checkBox, editTask, deleteTask);
+            taskCard.append(priority, checkBox, editTask, deleteTask);
             taskContainer.append(taskCard);   
         })
     };
@@ -185,10 +208,22 @@ export class Task {
                 taskCard.classList.add("task-card");
                 taskCard.setAttribute("data-index", index);
 
-                taskCard.innerHTML = `<p>${task.title}</p> <p>${task.notes}</p> <p>${task.dueDate}</p> <p>${task.category}</p> <p>${task.priority}</p>`;
-                
+                taskCard.innerHTML = `<p>${task.title}</p> <p>${task.notes}</p> <p>${task.dueDate}</p> <p>${task.category}</p>`;
+                const priority = document.createElement("p");// this could be a p
+                priority.classList.add("priority"); //this css will make it a circle
+                //this will make the circle green, yellow, or red
+                if (task.priority == "low") {
+                    priority.classList.remove("mid", "high")
+                    priority.classList.add("low")
+                } else if (task.priority == "mid") {
+                    priority.classList.remove("low", "high") 
+                    priority.classList.add("mid")
+                } else if (task.priority == "high") {
+                    priority.classList.remove("mid", "low")
+                    priority.classList.add("high")
+                }
                 const checkBox = document.createElement("button");
-                checkBox.classList.add("item-one");
+                checkBox.classList.add("item-one", "check-size");
                 checkBox.addEventListener("click", () => {
                 Task.checkUncheck(index);
                 });

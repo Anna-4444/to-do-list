@@ -6,12 +6,12 @@ html {
     font-size: 16px;
 }
 
-.hide {
-    display: none;
+body {
+    background-color: #cfdcbc;
 }
 
-body {
-    background-color: #deefb7;
+.hide {
+    display: none;
 }
 
 header {
@@ -46,19 +46,19 @@ h2 {
 
 nav {
     display: flex;
-    justify-content: space-evenly;
-    width: 80%;
-
+    justify-content: space-between;
+    gap: 0.5rem;
+    width: 90%;
 }
 
 header button {
-    padding: 0.5rem 1rem;
-    border-radius: 10% 50%;
-    background-color: #83d89e;
+    padding: 0.5rem 0.5rem;
+    border-radius: 10% / 50%;
+    background-color: #0c3746 ;
     border: none;
     color: white;
     font-variant: small-caps;
-    font-weight: 700;
+    font-weight: 800;
     font-size: 1rem;
 }
 
@@ -71,17 +71,15 @@ header i {
     color: white;
 }
 
-dialog {
-    margin: auto;
+h1 i {
+    color: #275347;
 }
 
-/***.modal-close,
-.modal-close-edit {
-    display: block;
-    width: 100%;
-    text-align: right;
-    cursor: pointer;
-}***/
+dialog {
+    margin: auto;
+    border: none;
+    font-variant: small-caps;
+}
 
 form {
     display: flex;
@@ -93,9 +91,37 @@ input {
     margin-bottom: 0.4em;
 }
 
-/***main {
-    width: 100%;
-}***/
+select,
+input[type="date"],
+input[type="radio"] {
+    cursor: pointer;
+}
+
+form input:focus,
+form select:focus {
+    background-color: #cfdcbc;
+}
+
+form input,
+form select {
+    background-color: #e4e3d3;
+}
+
+#low,
+.low {
+    accent-color: rgb(61, 122, 61);
+    background-color: rgb(61, 122, 61);
+}
+#mid,
+.mid {
+    accent-color: rgb(192, 192, 79);
+    background-color: rgb(192, 192, 79);
+}
+#high,
+.high {
+    accent-color: rgb(158, 61, 61);
+    background-color: rgb(158, 61, 61);
+}
 
 .proj-container {
     display: flex;
@@ -109,31 +135,35 @@ input {
     width: 100%; 
 }
 
+dialog,
+.task-card {
+    background-color: #e4e3d3;
+    border-radius: 0.5rem;
+    border-left: 5px solid #275347;
+    box-shadow: 3px 3px 5px  black;
+}
+
 .task-card {
     width: 90%;
     margin: 1rem auto;
+    padding: 0.5rem;
     display: grid;
     grid-template-columns: 1fr 4fr 4fr 4fr 3fr 1fr 1fr 1fr;
-    gap: 0.5rem;
-    padding: 0.5rem;
-    background-color: white;
-    border-radius: 0.5rem;
-    border-left: 5px solid #275347;
-    box-shadow: 3px 3px 5px gray;
-}
-.task-card p {
-    place-self: center;
+    gap: 0.5rem;  
 }
 
+.task-card p,
 .task-card button {
     place-self: center;
 }
 
 .item-one {
     grid-area: 1 / 1 / 2 / 2;
-    place-self: center;
-    width: 0.5rem;
-    padding-bottom: 0.5rem;
+}
+
+.check-size {
+    width: 1rem;
+    height: 1rem;
 }
 
 .check-box {
@@ -141,13 +171,26 @@ input {
 }
 
 button {
-    background-color: white;
+    background-color: #e4e3d3;
     border-color: #275347;
+    border-radius: 0.5rem;
 }
 
 button:hover {
     cursor: pointer;
-    background-color: #deefb7;
-    border-color: #deefb7;
+    background-color: #cfdcbc;
+    border-color: #cfdcbc;
 }
 
+.priority {
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 50%;
+}
+
+@media (min-width: 768px) {
+    nav {
+        justify-content: space-around;
+        width: 80%;
+    }
+}
